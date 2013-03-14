@@ -62,6 +62,7 @@ package com.kashirov.net.models
 		{
 			var item:BaseModel = new _assign() as BaseModel;
 			_models[key] = item;
+			item.prefix = key;
 			addSignal.dispatch(item);
 			return item;
 		}

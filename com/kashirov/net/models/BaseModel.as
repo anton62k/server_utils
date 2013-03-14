@@ -15,6 +15,8 @@ package com.kashirov.net.models
 		
 		private var structure:XML;
 		
+		public var prefix:String;
+		
 		public function BaseModel() 
 		{
 			structure = describeType(this);
