@@ -70,7 +70,7 @@ package com.kashirov.net.models
 		public function removeItem(key:String):BaseModel
 		{
 			var item:BaseModel = _models[key] as BaseModel;
-			delete _models[item];
+			delete _models[key];
 			removeSignal.dispatch(item);
 			item.dispose();
 			return item;
