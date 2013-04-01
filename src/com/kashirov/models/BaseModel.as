@@ -1,8 +1,10 @@
-package com.kashirov.net.models 
+package com.kashirov.models 
 {
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
+	import org.as3commons.collections.framework.core.SetIterator;
 	import org.as3commons.collections.Map;
+	import org.as3commons.collections.Set;
 	import org.osflash.signals.Signal;
 	/**
 	 * ...
@@ -11,32 +13,30 @@ package com.kashirov.net.models
 	public class BaseModel 
 	{
 		
-		public var fieldsDispatch:Signal;
-		
-		private var structure:XML;
-		
+		public var signal:Signal;
 		public var prefix:String;
 		
+		private var modelFields:Set;
+		private var exclude:Array = ['prefix', 'signal'];
+		
 		public function BaseModel() 
+		{	
+			init();
+		}
+		
+		public function updateField(field:String, value:*):void
 		{
-			structure = describeType(this);
-			fieldsDispatch = new Signal(Map);
-			
-			for each (var childNode:XML in structure.variable) {
-				var name:String = childNode.@name;
-				var type:String = childNode.@type;
-				var clazz:Class = getDefinitionByName(type) as Class;
-				if (!this[name]) this[name] = new clazz();
-			}
+			this[field] = value;
 		}
 		
 		public function dispose():void
 		{
-			fieldsDispatch.removeAll();
+			signal.removeAll();
 			
-			for each (var childNode:XML in structure.variable) {
-				var name:String = childNode.@name;
-				var field:* = this[name];
+			var iterator:SetIterator = modelFields.iterator() as SetIterator;
+			while (iterator.hasNext()) {
+				iterator.next();
+				var field:* = this[iterator.current];
 				
 				if (field is BaseModel || field is Store || field is Hash) {
 					field.dispose();
@@ -48,14 +48,15 @@ package com.kashirov.net.models
 		{
 			var rt:Object = { };
 			
-			for each (var childNode:XML in structure.variable) {
-				var name:String = childNode.@name;
-				var field:* = this[name];
+			var iterator:SetIterator = modelFields.iterator() as SetIterator;
+			while (iterator.hasNext()) {
+				iterator.next();
+				var field:* = this[iterator.current];
 				
 				if (field is BaseModel || field is Store || field is Hash) {
-					rt[name] = field.data();
+					rt[iterator.current] = field.data();
 				} else {
-					rt[name] = this[name];
+					rt[iterator.current] = this[iterator.current];
 				}
 			}
 			
@@ -87,8 +88,33 @@ package com.kashirov.net.models
 			}
 			
 			if (fields.size) {
-				fieldsDispatch.dispatch(fields);
+				signal.dispatch(fields);
 			}
+		}
+		
+		public function iterator():SetIterator
+		{
+			return modelFields.iterator() as SetIterator;
+		}		
+		
+		private function init():void
+		{
+			signal = new Signal(Map);
+			parseModelFields();			
+		}
+		
+		private function parseModelFields():void 
+		{
+			modelFields = new Set();
+			var structure:XML = describeType(this);
+			for each (var childNode:XML in structure.variable) {
+				var name:String = childNode.@name;
+				if (exclude.indexOf(name) != -1) continue;
+				var type:String = childNode.@type;
+				var clazz:Class = getDefinitionByName(type) as Class;
+				if (!this[name]) this[name] = new clazz();
+				modelFields.add(name);
+			}			
 		}
 		
 		private function parseField(name:String, data:Object):void

@@ -1,4 +1,4 @@
-package com.kashirov.net.models 
+package com.kashirov.models 
 {
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;

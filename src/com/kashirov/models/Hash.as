@@ -1,4 +1,4 @@
-package com.kashirov.net.models 
+package com.kashirov.models 
 {
 	import org.as3commons.collections.framework.IMapIterator;
 	import org.as3commons.collections.Map;
