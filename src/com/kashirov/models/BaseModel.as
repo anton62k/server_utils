@@ -81,10 +81,12 @@ package com.kashirov.models
 					parseHash(field as Hash, itemData);
 					
 				} else {
-					parseField(name, itemData)
+					if (itemData != this[name]) {
+						parseField(name, itemData)
+						fields.add(name, this[name]);
+					}
 				}
 				
-				fields.add(name, this[name]);
 			}
 			
 			if (fields.size) {

@@ -2,7 +2,9 @@ package com.kashirov.models
 {
 	import com.kashirov.models.BaseModel;
 	import flexunit.framework.Assert;
+	import org.as3commons.collections.framework.core.MapIterator;
 	import org.as3commons.collections.framework.core.SetIterator;
+	import org.as3commons.collections.Map;
 	
 	/**
 	 * ...
@@ -17,6 +19,12 @@ package com.kashirov.models
 		public function before():void
 		{
 			model = new TestModel();
+		}
+		
+		[After]
+		public function after():void
+		{
+			model.dispose();
 		}
 		
 		[Test]
@@ -73,6 +81,37 @@ package com.kashirov.models
 		{
 			model.updateField('fieldStr', 'test_update');
 			eq(model.fieldStr, 'test_update');
+		}
+		
+		[Test]
+		public function testSignal():void
+		{
+			model.signal.add(onSignal);
+			model.updateData( { fieldStr: 'test', fieldInt: 100, fieldBoolean: model.fieldBoolean } );
+		}
+		
+		private function onSignal(fields:Map):void 
+		{
+			eq(fields.size, 2);
+			var iterator:MapIterator = fields.iterator() as MapIterator;
+			while (iterator.hasNext()) {
+				iterator.next();
+				eq(model[iterator.key], iterator.current)
+			}
+		}
+		
+		[Test]
+		public function testSignal2():void
+		{
+			model.signal.add(onSignal2);
+			model.updateField('fieldStr', 'testSignal');
+		}
+		
+		private function onSignal2(fields:Map):void 
+		{
+			eq(fields.size, 1);
+			eq(fields.itemFor('fieldStr'), 'testSignal');
+			eq(model.fieldStr, 'testSignal');
 		}
 		
 	}
