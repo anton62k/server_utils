@@ -43,7 +43,8 @@ package com.kashirov.models
 		public function Unit() 
 		{	
 			signal = new Signal(Array);
-			parseModelFields();		
+			parseModelFields();
+			prefix = '';
 		}
 		
 		public function updateField(field:String, value:*):void
@@ -128,6 +129,11 @@ package com.kashirov.models
 				var clazz:Class = getDefinitionByName(type) as Class;
 				if (!this[name]) this[name] = new clazz();
 				modelFields.push(name);
+				
+				if (this[name] is Unit) {
+					var unit:Unit = this[name] as Unit;
+					unit.prefix = name;
+				}
 			}
 			modelFields = modelFields.sort();
 		}
