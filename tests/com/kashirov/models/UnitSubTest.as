@@ -42,8 +42,8 @@ package com.kashirov.models
 		[Test]
 		public function testUpdateData():void
 		{
-			model.updateData( { sub: { test: 15 }} );
-			eqObj(model.data(), { sub: { test: 15 }, store: { } } );
+			model.updateData( { sub: { test: 15 }, store: { '1': { }, '200': { test: 30 }} } );
+			eqObj(model.data(), { sub: { test: 15 }, store: { '1': { test: 10 }, '200': { test: 30 }} } );
 		}
 		
 	}

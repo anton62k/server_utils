@@ -99,7 +99,7 @@ package com.kashirov.models
 				if (field is Unit) {
 					parseBaseModel(field as Unit, itemData);
 				} else if (field is Store) {
-					parseStore(field as Store, itemData);
+					(field as Store).updateData(itemData);
 					
 				} else if (field is Hash) {
 					parseHash(field as Hash, itemData);
@@ -154,22 +154,6 @@ package com.kashirov.models
 		private function parseBaseModel(model:Unit, data:Object):void
 		{
 			model.updateData(data);
-		}
-		
-		private function parseStore(model:Store, data:Object):void
-		{
-			for (var name:String in data) 
-			{
-				var value:Object = data[name];
-				
-				if (value == null && model.getItem(name)) {
-					model.removeItem(name);
-					continue;
-				}
-				
-				var item:Unit = model.getItem(name) || model.addItem(name);
-				item.updateData(data[name]);
-			}
 		}
 		
 	}

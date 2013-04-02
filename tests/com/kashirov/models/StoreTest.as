@@ -30,6 +30,31 @@ package com.kashirov.models
 			eq(model.prefix, '');
 		}
 		
+		[Test]
+		public function testUpdateData():void
+		{	
+			model.updateData( { 'test': {'test': 55} } );
+			eqObj(model.data(), { 'test': { 'test': 55 } } );
+		}
+		
+		[Test]
+		public function testCount():void
+		{	
+			eq(model.count(), 0);
+			
+			model.addItem(0);
+			eq(model.count(), 1);
+			
+			model.updateData( { '2': { }, '3': { }} );
+			eq(model.count(), 3);
+			
+			model.removeItem(3);
+			eq(model.count(), 2);
+			
+			model.removeAll();
+			eq(model.count(), 0);
+		}		
+		
 	}
 
 }

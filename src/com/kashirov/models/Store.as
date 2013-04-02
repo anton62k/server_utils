@@ -57,12 +57,12 @@ package com.kashirov.models
 			}
 		}
 		
-		public function getItem(key:String):Unit
+		public function getItem(key:*):Unit
 		{
 			return _models[key];
 		}
 		
-		public function addItem(key:String):Unit
+		public function addItem(key:*):Unit
 		{
 			var item:Unit = new _assign() as Unit;
 			_models[key] = item;
@@ -71,13 +71,47 @@ package com.kashirov.models
 			return item;
 		}
 		
-		public function removeItem(key:String):Unit
+		public function removeItem(key:*):Unit
 		{
 			var item:Unit = _models[key] as Unit;
 			delete _models[key];
 			removeSignal.dispatch(item);
 			item.dispose();
 			return item;
+		}
+		
+		public function removeAll():void
+		{
+			for (var name:String in _models) 
+			{
+				removeItem(name);
+			}
+		}
+		
+		public function updateData(data:Object):void
+		{
+			for (var name:String in data) 
+			{
+				var value:Object = data[name];
+				
+				if (value == null && getItem(name)) {
+					removeItem(name);
+					continue;
+				}
+				
+				var item:Unit = getItem(name) || addItem(name);
+				item.updateData(data[name]);
+			}
+		}
+		
+		public function count():int
+		{
+			var i:int = 0;
+			for (var name:String in _models) 
+			{
+				i ++;
+			}
+			return i;
 		}
 		
 	}
