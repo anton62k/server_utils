@@ -1,6 +1,6 @@
 package  
 {
-	import com.kashirov.models.BaseModelTest;
+	import com.kashirov.models.UnitTest;
 	import flash.display.Sprite;
 	import org.flexunit.internals.TraceListener;
 	import org.flexunit.runner.FlexUnitCore;
@@ -16,7 +16,7 @@ package
 		{
 			var core:FlexUnitCore = new FlexUnitCore();
 			core.addListener(new TraceListener());
-			core.run(BaseModelTest);
+			core.run(UnitTest);
 		}
 		
 	}

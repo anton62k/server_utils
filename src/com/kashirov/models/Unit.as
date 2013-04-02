@@ -42,13 +42,16 @@ package com.kashirov.models
 		
 		public function Unit() 
 		{	
-			signal = new Signal(Map);
+			signal = new Signal(Array);
 			parseModelFields();		
 		}
 		
 		public function updateField(field:String, value:*):void
 		{
-			this[field] = value;
+			if (value != this[field]) {
+				parseField(field, value);
+				signal.dispatch([field]);
+			}
 		}
 		
 		public function dispose():void
@@ -85,7 +88,7 @@ package com.kashirov.models
 		
 		public function updateData(data:Object, dispatchSignal:Boolean = true):void
 		{
-			var fields:Map = new Map();
+			var fields:Array = [];
 			
 			for (var name:String in data) 
 			{
@@ -103,13 +106,13 @@ package com.kashirov.models
 				} else {
 					if (itemData != this[name]) {
 						parseField(name, itemData)
-						fields.add(name, this[name]);
+						fields.push(name);
 					}
 				}
 				
 			}
 			
-			if (fields.size) {
+			if (fields.length) {
 				signal.dispatch(fields);
 			}
 		}

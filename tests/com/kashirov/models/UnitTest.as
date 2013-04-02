@@ -10,10 +10,11 @@ package com.kashirov.models
 	 * ...
 	 * @author 
 	 */
-	public class BaseModelTest extends BaseCase 
+	public class UnitTest extends BaseCase 
 	{
 		
 		public var model:TestModel;
+		public var signal:String;
 		
 		[Before]
 		public function before():void
@@ -78,16 +79,17 @@ package com.kashirov.models
 		{
 			model.signal.add(onSignal);
 			model.updateData( { fieldStr: 'test', fieldInt: 100, fieldBoolean: model.fieldBoolean } );
+			eq(signal, '1');
 		}
 		
-		private function onSignal(fields:Map):void 
+		private function onSignal(fields:Array):void 
 		{
-			eq(fields.size, 2);
-			var iterator:MapIterator = fields.iterator() as MapIterator;
-			while (iterator.hasNext()) {
-				iterator.next();
-				eq(model[iterator.key], iterator.current)
+			eq(fields.length, 2);
+			for each (var field:String in fields) 
+			{
+				eq(model.hasOwnProperty(field), true);
 			}
+			signal = '1';
 		}
 		
 		[Test]
@@ -95,13 +97,15 @@ package com.kashirov.models
 		{
 			model.signal.add(onSignal2);
 			model.updateField('fieldStr', 'testSignal');
+			eq(signal, '2');
 		}
 		
-		private function onSignal2(fields:Map):void
+		private function onSignal2(fields:Array):void
 		{
-			eq(fields.size, 1);
-			eq(fields.itemFor('fieldStr'), 'testSignal');
+			eq(fields.length, 1);
+			eq(fields[0], 'fieldStr');
 			eq(model.fieldStr, 'testSignal');
+			signal = '2';
 		}
 		
 		[Test]
