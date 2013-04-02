@@ -1,15 +1,15 @@
 package com.kashirov.models.vo 
 {
 	import com.kashirov.models.Unit;
+	
 	/**
 	 * ...
 	 * @author 
 	 */
-	public class TestSubUnit extends Unit 
+	public class MyItem extends Unit 
 	{
 		
-		public var sub:SubUnit;
-		public var store:MyStore;
+		public var test:int = 10;
 		
 	}
 

@@ -133,6 +133,9 @@ package com.kashirov.models
 				if (this[name] is Unit) {
 					var unit:Unit = this[name] as Unit;
 					unit.prefix = name;
+				} else if (this[name] is Store) {
+					var store:Store = this[name] as Store;
+					store.prefix = name;
 				}
 			}
 			modelFields = modelFields.sort();

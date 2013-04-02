@@ -29,20 +29,21 @@ package com.kashirov.models
 		{
 			eq(model.prefix, '');
 			eq(model.sub.prefix, 'sub');
+			eq(model.store.prefix, 'store');
 		}
 		
 		[Test]
 		public function testData():void
 		{
 			model.sub.test = 12;
-			eqObj(model.data(), { sub: { test: 12 } } );
+			eqObj(model.data(), { sub: { test: 12 }, store: { } } );
 		}
 		
 		[Test]
 		public function testUpdateData():void
 		{
 			model.updateData( { sub: { test: 15 }} );
-			eqObj(model.data(), { sub: { test: 15 } } );
+			eqObj(model.data(), { sub: { test: 15 }, store: { } } );
 		}
 		
 	}

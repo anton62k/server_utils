@@ -2,12 +2,13 @@ package com.kashirov.models
 {
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
+	import flash.utils.Proxy;
 	import org.osflash.signals.Signal;
 	/**
 	 * ...
 	 * @author 
 	 */
-	public class Store
+	public class Store extends Proxy
 	{
 		
 		protected var _models:Object;
@@ -15,10 +16,13 @@ package com.kashirov.models
 		
 		public var addSignal:Signal;
 		public var removeSignal:Signal;
+		public var prefix:String;
 		
 		public function Store() 
 		{
 			_models = { };
+			
+			prefix = '';
 			
 			addSignal = new Signal(Unit);
 			removeSignal = new Signal(Unit);
