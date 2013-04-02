@@ -1,27 +1,49 @@
 package com.kashirov.models 
 {
 	import flash.utils.describeType;
+	import flash.utils.flash_proxy;
 	import flash.utils.getDefinitionByName;
+	import flash.utils.Proxy;
 	import org.as3commons.collections.framework.core.SetIterator;
 	import org.as3commons.collections.Map;
-	import org.as3commons.collections.Set;
 	import org.osflash.signals.Signal;
 	/**
 	 * ...
 	 * @author 
 	 */
-	public class BaseModel 
+	public class Unit extends Proxy
 	{
 		
 		public var signal:Signal;
 		public var prefix:String;
 		
-		private var modelFields:Set;
+		private var modelFields:Array;
 		private var exclude:Array = ['prefix', 'signal'];
 		
-		public function BaseModel() 
+		override flash_proxy function nextNameIndex(index:int):int 
+		{
+			if (index < modelFields.length) {
+				return index + 1;
+			} else {
+				return 0;
+			}
+		}
+		
+		override flash_proxy function nextName (index:int):String
+		{
+			return modelFields[index - 1];
+		}
+		
+		override flash_proxy function nextValue(index:int):*
+		{
+			var field:String = modelFields[index - 1];
+			return this[field];
+		}
+		
+		public function Unit() 
 		{	
-			init();
+			signal = new Signal(Map);
+			parseModelFields();		
 		}
 		
 		public function updateField(field:String, value:*):void
@@ -33,12 +55,11 @@ package com.kashirov.models
 		{
 			signal.removeAll();
 			
-			var iterator:SetIterator = modelFields.iterator() as SetIterator;
-			while (iterator.hasNext()) {
-				iterator.next();
-				var field:* = this[iterator.current];
+			for (var name:String in this) 
+			{
+				var field:* = this[name];
 				
-				if (field is BaseModel || field is Store || field is Hash) {
+				if (field is Unit || field is Store || field is Hash) {
 					field.dispose();
 				}
 			}
@@ -48,15 +69,14 @@ package com.kashirov.models
 		{
 			var rt:Object = { };
 			
-			var iterator:SetIterator = modelFields.iterator() as SetIterator;
-			while (iterator.hasNext()) {
-				iterator.next();
-				var field:* = this[iterator.current];
+			for (var name:String in this) 
+			{
+				var field:* = this[name];
 				
-				if (field is BaseModel || field is Store || field is Hash) {
-					rt[iterator.current] = field.data();
+				if (field is Unit || field is Store || field is Hash) {
+					rt[name] = field.data();
 				} else {
-					rt[iterator.current] = this[iterator.current];
+					rt[name] = this[name];
 				}
 			}
 			
@@ -72,8 +92,8 @@ package com.kashirov.models
 				var field:* = this[name];
 				var itemData:Object = data[name];
 				
-				if (field is BaseModel) {
-					parseBaseModel(field as BaseModel, itemData);
+				if (field is Unit) {
+					parseBaseModel(field as Unit, itemData);
 				} else if (field is Store) {
 					parseStore(field as Store, itemData);
 					
@@ -94,20 +114,9 @@ package com.kashirov.models
 			}
 		}
 		
-		public function iterator():SetIterator
-		{
-			return modelFields.iterator() as SetIterator;
-		}		
-		
-		private function init():void
-		{
-			signal = new Signal(Map);
-			parseModelFields();			
-		}
-		
 		private function parseModelFields():void 
 		{
-			modelFields = new Set();
+			modelFields = [];
 			var structure:XML = describeType(this);
 			for each (var childNode:XML in structure.variable) {
 				var name:String = childNode.@name;
@@ -115,8 +124,9 @@ package com.kashirov.models
 				var type:String = childNode.@type;
 				var clazz:Class = getDefinitionByName(type) as Class;
 				if (!this[name]) this[name] = new clazz();
-				modelFields.add(name);
-			}			
+				modelFields.push(name);
+			}
+			modelFields = modelFields.sort();
 		}
 		
 		private function parseField(name:String, data:Object):void
@@ -129,7 +139,7 @@ package com.kashirov.models
 			hash.updateData(data);
 		}
 		
-		private function parseBaseModel(model:BaseModel, data:Object):void
+		private function parseBaseModel(model:Unit, data:Object):void
 		{
 			model.updateData(data);
 		}
@@ -145,7 +155,7 @@ package com.kashirov.models
 					continue;
 				}
 				
-				var item:BaseModel = model.getItem(name) || model.addItem(name);
+				var item:Unit = model.getItem(name) || model.addItem(name);
 				item.updateData(data[name]);
 			}
 		}

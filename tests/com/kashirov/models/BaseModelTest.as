@@ -1,6 +1,6 @@
 package com.kashirov.models 
 {
-	import com.kashirov.models.BaseModel;
+	import com.kashirov.models.Unit;
 	import flexunit.framework.Assert;
 	import org.as3commons.collections.framework.core.MapIterator;
 	import org.as3commons.collections.framework.core.SetIterator;
@@ -67,16 +67,6 @@ package com.kashirov.models
 		}
 		
 		[Test]
-		public function testIterator():void
-		{
-			var iterator:SetIterator = model.iterator();
-			while (iterator.hasNext()) {
-				iterator.next();
-				eq(model.hasOwnProperty(iterator.current), true);
-			}
-		}
-		
-		[Test]
 		public function testUpdateField():void
 		{
 			model.updateField('fieldStr', 'test_update');
@@ -107,20 +97,46 @@ package com.kashirov.models
 			model.updateField('fieldStr', 'testSignal');
 		}
 		
-		private function onSignal2(fields:Map):void 
+		private function onSignal2(fields:Map):void
 		{
 			eq(fields.size, 1);
 			eq(fields.itemFor('fieldStr'), 'testSignal');
 			eq(model.fieldStr, 'testSignal');
 		}
 		
+		[Test]
+		public function testForIn():void
+		{
+			var items:Array = ['defaultFieldBoolean', 'defaultFieldInt', 'defaultFieldStr', 'fieldBoolean', 'fieldInt', 'fieldStr'];
+			var i:int = 0;
+			for (var name:String in model) 
+			{
+				eq(items[i], name)
+				i ++;
+			}
+			eq(i, items.length);
+		}
+		
+		[Test]
+		public function testForEach():void
+		{
+			var items:Array = ['defaultFieldBoolean', 'defaultFieldInt', 'defaultFieldStr', 'fieldBoolean', 'fieldInt', 'fieldStr'];
+			var i:int = 0;
+			for each (var item:* in model) 
+			{
+				eq(model[items[i]], item);
+				i ++;
+			}
+			eq(i, items.length);
+		}
+		
 	}
 
 }
 
-import com.kashirov.models.BaseModel;
+import com.kashirov.models.Unit
 
-class TestModel extends BaseModel {
+class TestModel extends Unit {
 	
 	public var fieldStr:String;
 	public var fieldInt:int;

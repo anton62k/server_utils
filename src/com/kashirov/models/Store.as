@@ -20,8 +20,8 @@ package com.kashirov.models
 		{
 			_models = { };
 			
-			addSignal = new Signal(BaseModel);
-			removeSignal = new Signal(BaseModel);
+			addSignal = new Signal(Unit);
+			removeSignal = new Signal(Unit);
 			
 			var structure:XML = describeType(this);
 			var assignType:String = structure.variable.(@name == 'assign').@type;
@@ -34,7 +34,7 @@ package com.kashirov.models
 			
 			for (var name:String in _models) 
 			{
-				var item:BaseModel = getItem(name);
+				var item:Unit = getItem(name);
 				rt[name] = item.data();
 			}
 			
@@ -48,28 +48,28 @@ package com.kashirov.models
 			
 			for (var name:String in _models) 
 			{
-				var item:BaseModel = getItem(name);
+				var item:Unit = getItem(name);
 				item.dispose();
 			}
 		}
 		
-		public function getItem(key:String):BaseModel
+		public function getItem(key:String):Unit
 		{
 			return _models[key];
 		}
 		
-		public function addItem(key:String):BaseModel
+		public function addItem(key:String):Unit
 		{
-			var item:BaseModel = new _assign() as BaseModel;
+			var item:Unit = new _assign() as Unit;
 			_models[key] = item;
 			item.prefix = key;
 			addSignal.dispatch(item);
 			return item;
 		}
 		
-		public function removeItem(key:String):BaseModel
+		public function removeItem(key:String):Unit
 		{
-			var item:BaseModel = _models[key] as BaseModel;
+			var item:Unit = _models[key] as Unit;
 			delete _models[key];
 			removeSignal.dispatch(item);
 			item.dispose();
