@@ -134,6 +134,12 @@ package com.kashirov.models
 			eq(i, items.length);
 		}
 		
+		[Test]
+		public function testToString():void
+		{
+			eq(model.toString(), '[object TestModel]');
+		}
+		
 	}
 
 }

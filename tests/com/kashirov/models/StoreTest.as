@@ -88,6 +88,77 @@ package com.kashirov.models
 			eq(item.prefix, '1');
 			eq(model.get(1), item);
 		}
+		
+		[Test]
+		public function testForIn():void
+		{
+			var ids:Array = [1, 'test1', '2', '100', '3', 'a', '0'];
+			for each (var id:* in ids) 
+			{
+				model.add(id);
+			}
+			ids = ids.sort();
+			
+			var i:int = 0;
+			for (var name:String in model) 
+			{
+				eq(ids[i], name);
+				i ++;
+			}
+			eq(i, model.count());
+			eq(i, ids.length);
+		}
+		
+		[Test]
+		public function testForEach():void
+		{
+			var ids:Array = [1, 'test1', '2', '100', '3', 'a'];
+			for each (var id:* in ids) 
+			{
+				model.add(id);
+			}
+			ids = ids.sort();
+			
+			var i:int = 0;
+			for each (var item:Unit in model) 
+			{
+				eq(String(ids[i]), item.prefix);
+				i ++;
+			}
+			eq(i, model.count());
+			eq(i, ids.length);
+		}
+		
+		[Test]
+		public function testAddIncr():void
+		{	
+			model.startIndexIncr = 0;
+			for (var i:int = 0; i < 20; i++) 
+			{
+				var item:Unit = model.add();
+				eq(item.prefix, i.toString());
+			}
+			
+			model.removeAll();
+			
+			model.startIndexIncr = 11;
+			for (i = 0; i < 20; i++) 
+			{
+				item = model.add();
+				eq(item.prefix, (i + 11).toString());
+			}
+		}
+		
+		[Test]
+		public function testToString():void
+		{
+			eq(model.toString(), '[object MyStore]');
+		}
 	}
 
+}
+
+class Test1 {
+	
+	
 }

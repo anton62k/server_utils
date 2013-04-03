@@ -17,8 +17,14 @@ package com.kashirov.models
 		public var signal:Signal;
 		public var prefix:String;
 		
-		private var modelFields:Array;
-		private var exclude:Array = ['prefix', 'signal'];
+		protected var modelFields:Array;
+		protected var exclude:Array = ['prefix', 'signal'];
+		protected var className:String;
+		
+		public function toString():String
+		{
+			return '[object ' + className.split('::')[1] + ']';
+		}
 		
 		override flash_proxy function nextNameIndex(index:int):int 
 		{
@@ -122,6 +128,7 @@ package com.kashirov.models
 		{
 			modelFields = [];
 			var structure:XML = describeType(this);
+			className = structure.@name;
 			for each (var childNode:XML in structure.variable) {
 				var name:String = childNode.@name;
 				if (exclude.indexOf(name) != -1) continue;
