@@ -1,5 +1,6 @@
 package  
 {
+	import com.kashirov.models.StoreStoreTest;
 	import com.kashirov.models.StoreTest;
 	import com.kashirov.models.UnitSubTest;
 	import com.kashirov.models.UnitTest;
@@ -18,7 +19,7 @@ package
 		{
 			var core:FlexUnitCore = new FlexUnitCore();
 			core.addListener(new TraceListener());
-			core.run(UnitTest, UnitSubTest, StoreTest);
+			core.run(UnitTest, UnitSubTest, StoreTest, StoreStoreTest);
 		}
 		
 	}

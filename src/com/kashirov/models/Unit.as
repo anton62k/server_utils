@@ -11,15 +11,15 @@ package com.kashirov.models
 	 * ...
 	 * @author 
 	 */
-	public class Unit extends Proxy
+	public class Unit extends Proxy implements IModel
 	{
 		
 		public var signal:Signal;
-		public var prefix:String;
 		
 		protected var modelFields:Array;
 		protected var exclude:Array = ['prefix', 'signal'];
 		protected var className:String;
+		protected var _prefix:String;
 		
 		public function toString():String
 		{
@@ -93,7 +93,7 @@ package com.kashirov.models
 			return rt;
 		}
 		
-		public function updateData(data:Object, dispatchSignal:Boolean = true):void
+		public function updateData(data:Object):void
 		{
 			var fields:Array = [];
 			
@@ -161,6 +161,16 @@ package com.kashirov.models
 		private function parseBaseModel(model:Unit, data:Object):void
 		{
 			model.updateData(data);
+		}
+		
+		public function get prefix():String 
+		{
+			return _prefix;
+		}
+		
+		public function set prefix(value:String):void 
+		{
+			_prefix = value;
 		}
 		
 	}

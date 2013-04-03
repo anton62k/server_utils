@@ -9,17 +9,17 @@ package com.kashirov.models
 	 * ...
 	 * @author 
 	 */
-	public class Store extends Proxy
+	public class Store extends Proxy implements IModel
 	{
 		
 		protected var _models:Object;
 		protected var _assign:Class;
 		protected var modelFields:Array;
 		protected var className:String;
+		protected var _prefix:String;
 		
 		public var addSignal:Signal;
 		public var removeSignal:Signal;
-		public var prefix:String;
 		public var startIndexIncr:int = 0;
 		
 		public function toString():String
@@ -54,8 +54,8 @@ package com.kashirov.models
 			
 			prefix = '';
 			
-			addSignal = new Signal(Unit);
-			removeSignal = new Signal(Unit);
+			addSignal = new Signal(IModel);
+			removeSignal = new Signal(IModel);
 			
 			var structure:XML = describeType(this);
 			className = structure.@name;
@@ -69,7 +69,7 @@ package com.kashirov.models
 			
 			for (var name:String in _models) 
 			{
-				var item:Unit = getItem(name);
+				var item:IModel = getItem(name);
 				rt[name] = item.data();
 			}
 			
@@ -83,18 +83,18 @@ package com.kashirov.models
 			
 			for (var name:String in _models) 
 			{
-				var item:Unit = getItem(name);
+				var item:IModel = getItem(name);
 				item.dispose();
 			}
 		}
 		
-		public function getItem(key:*):Unit
+		public function getItem(key:*):IModel
 		{
 			key = String(key);
 			return _models[key];
 		}
 		
-		public function addItem(key:* = null, data:Object = null):Unit
+		public function addItem(key:* = null, data:Object = null):IModel
 		{
 			if (key == null) {
 				key = incrKey();
@@ -103,7 +103,7 @@ package com.kashirov.models
 			key = String(key);
 			if (getItem(key)) return null;
 			
-			var item:Unit = new _assign() as Unit;
+			var item:IModel = new _assign() as IModel;
 			_models[key] = item;
 			item.prefix = key;
 			if (data) item.updateData(data);
@@ -112,10 +112,10 @@ package com.kashirov.models
 			return item;
 		}
 		
-		public function removeItem(key:*):Unit
+		public function removeItem(key:*):IModel
 		{
 			key = String(key);
-			var item:Unit = _models[key] as Unit;
+			var item:IModel = _models[key] as IModel;
 			delete _models[key];
 			updateModelFields();
 			removeSignal.dispatch(item);
@@ -143,7 +143,7 @@ package com.kashirov.models
 					continue;
 				}
 				
-				var item:Unit = getItem(name) || addItem(name);
+				var item:IModel = getItem(name) || addItem(name);
 				item.updateData(data[name]);
 			}
 		}
@@ -182,6 +182,16 @@ package com.kashirov.models
 			}
 			
 			return incr;
+		}
+		
+		public function get prefix():String 
+		{
+			return _prefix;
+		}
+		
+		public function set prefix(value:String):void 
+		{
+			_prefix = value;
 		}
 		
 	}
