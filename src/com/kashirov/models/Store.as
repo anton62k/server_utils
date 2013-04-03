@@ -62,11 +62,14 @@ package com.kashirov.models
 			return _models[key];
 		}
 		
-		public function addItem(key:*):Unit
+		public function addItem(key:*, data:Object = null):Unit
 		{
+			if (getItem(key)) return null;
+			
 			var item:Unit = new _assign() as Unit;
 			_models[key] = item;
 			item.prefix = key;
+			if (data) item.updateData(data);
 			addSignal.dispatch(item);
 			return item;
 		}
