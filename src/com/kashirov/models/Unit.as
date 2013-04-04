@@ -132,6 +132,7 @@ package com.kashirov.models
 			for each (var childNode:XML in structure.variable) {
 				var name:String = childNode.@name;
 				if (exclude.indexOf(name) != -1) continue;
+				if (childNode..metadata.(@name == 'Inject').length()) continue
 				var type:String = childNode.@type;
 				var clazz:Class = getDefinitionByName(type) as Class;
 				if (!this[name]) this[name] = new clazz();
