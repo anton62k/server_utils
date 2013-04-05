@@ -143,8 +143,7 @@ package com.kashirov.models
 					continue;
 				}
 				
-				var item:IModel = getItem(name) || addItem(name);
-				item.updateData(data[name]);
+				var item:IModel = getItem(name) || addItem(name, data[name]);
 			}
 		}
 		
