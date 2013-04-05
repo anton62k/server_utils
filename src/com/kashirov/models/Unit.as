@@ -110,6 +110,9 @@ package com.kashirov.models
 				} else if (field is Hash) {
 					parseHash(field as Hash, itemData);
 					
+				} else if (field is List) {
+					parseList(field as List, itemData as Array);
+					
 				} else {
 					if (itemData != this[name]) {
 						parseField(name, itemData)
@@ -158,6 +161,11 @@ package com.kashirov.models
 		{
 			hash.updateData(data);
 		}
+		
+		private function parseList(list:List, data:Array):void
+		{
+			list.updateData(data);
+		}		
 		
 		private function parseBaseModel(model:Unit, data:Object):void
 		{
