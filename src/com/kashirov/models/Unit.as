@@ -83,7 +83,7 @@ package com.kashirov.models
 			{
 				var field:* = this[name];
 				
-				if (field is Unit || field is Store || field is Hash) {
+				if (field is Unit || field is Store || field is Hash || field is List) {
 					rt[name] = field.data();
 				} else {
 					rt[name] = this[name];
