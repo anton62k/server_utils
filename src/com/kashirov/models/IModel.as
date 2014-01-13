@@ -1,6 +1,8 @@
 package com.kashirov.models 
 {
 	
+	import org.osflash.signals.Signal;
+	
 	/**
 	 * ...
 	 * @author 
@@ -8,6 +10,7 @@ package com.kashirov.models
 	public interface IModel 
 	{
 		
+		function get changeSignal():Signal;
 		function get prefix():String;
 		function set prefix(value:String):void;
 		

@@ -19,6 +19,9 @@ package com.kashirov.models
 		public function before():void
 		{
 			model = new MyStore();
+			countAdd = 0;
+			countRemove = 0;
+			countChange = 0;
 		}
 		
 		[After]
@@ -154,6 +157,46 @@ package com.kashirov.models
 		{
 			eq(model.toString(), '[object MyStore]');
 		}
+		
+		[Test]
+		public function testSignal():void
+		{
+			model.addSignal.add(onAdd);
+			model.removeSignal.add(onRemove);
+			model.changeSignal.add(onChange);
+			
+			model.add();
+			model.add();
+			model.add();
+			eq(countAdd, 3);
+			
+			model.remove(1);
+			eq(countRemove, 1);
+			
+			model.get(2).updateField('test', 11);
+			eq(countChange, 1);
+		}
+		
+		private var countAdd:int;
+		private var countRemove:int;
+		private var countChange:int;
+		
+		private function onAdd(item:MyItem):void 
+		{
+			countAdd += 1;
+		}
+		
+		private function onRemove(item:MyItem):void 
+		{
+			countRemove += 1;
+		}
+		
+		private function onChange(item:MyItem, fields:Array):void 
+		{
+			eq(item, model.get(2));
+			countChange += 1;
+		}
+		
 	}
 
 }

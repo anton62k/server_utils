@@ -14,7 +14,8 @@ package com.kashirov.models
 	public class Unit extends Proxy implements IModel
 	{
 		
-		public var signal:Signal;
+		private var _signal:Signal;
+		private var _changeSignal:Signal;
 		
 		protected var modelFields:Array;
 		protected var exclude:Array = ['prefix', 'signal'];
@@ -48,7 +49,8 @@ package com.kashirov.models
 		
 		public function Unit() 
 		{	
-			signal = new Signal(Array);
+			_signal = new Signal(Array);
+			_changeSignal = new Signal(IModel, Array);
 			parseModelFields();
 			prefix = '';
 		}
@@ -57,13 +59,15 @@ package com.kashirov.models
 		{
 			if (value != this[field]) {
 				parseField(field, value);
-				signal.dispatch([field]);
+				_signal.dispatch([field]);
+				_changeSignal.dispatch(this, [field]);
 			}
 		}
 		
 		public function dispose():void
 		{
-			signal.removeAll();
+			_signal.removeAll();
+			_changeSignal.removeAll();
 			
 			for (var name:String in this) 
 			{
@@ -123,7 +127,8 @@ package com.kashirov.models
 			}
 			
 			if (fields.length) {
-				signal.dispatch(fields);
+				_signal.dispatch(fields);
+				_changeSignal.dispatch(this, fields);
 			}
 		}
 		
@@ -180,6 +185,16 @@ package com.kashirov.models
 		public function set prefix(value:String):void 
 		{
 			_prefix = value;
+		}
+		
+		public function get signal():Signal 
+		{
+			return _signal;
+		}
+		
+		public function get changeSignal():Signal 
+		{
+			return _changeSignal;
 		}
 		
 	}

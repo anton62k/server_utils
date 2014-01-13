@@ -18,8 +18,10 @@ package com.kashirov.models
 		protected var className:String;
 		protected var _prefix:String;
 		
-		public var addSignal:Signal;
-		public var removeSignal:Signal;
+		private var _addSignal:Signal;
+		private var _removeSignal:Signal;
+		private var _changeSignal:Signal;
+		
 		public var startIndexIncr:int = 0;
 		
 		public function toString():String
@@ -54,8 +56,9 @@ package com.kashirov.models
 			
 			prefix = '';
 			
-			addSignal = new Signal(IModel);
-			removeSignal = new Signal(IModel);
+			_addSignal = new Signal(IModel);
+			_removeSignal = new Signal(IModel);
+			_changeSignal = new Signal(IModel, Object);
 			
 			var structure:XML = describeType(this);
 			className = structure.@name;
@@ -109,7 +112,13 @@ package com.kashirov.models
 			if (data) item.updateData(data);
 			updateModelFields();
 			addSignal.dispatch(item);
+			item.changeSignal.add(onItemSignal);
 			return item;
+		}
+		
+		protected function onItemSignal(item:IModel, fields:Object):void 
+		{
+			changeSignal.dispatch(item, fields);
 		}
 		
 		public function removeItem(key:*):IModel
@@ -195,6 +204,21 @@ package com.kashirov.models
 		public function set prefix(value:String):void 
 		{
 			_prefix = value;
+		}
+		
+		public function get addSignal():Signal 
+		{
+			return _addSignal;
+		}
+		
+		public function get removeSignal():Signal 
+		{
+			return _removeSignal;
+		}
+		
+		public function get changeSignal():Signal 
+		{
+			return _changeSignal;
 		}
 		
 	}
