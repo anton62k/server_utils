@@ -19,6 +19,7 @@ package com.kashirov.models
 		private var _addSignal:Signal;
 		private var _removeSignal:Signal;
 		private var _changeSignal:Signal;
+		private var _length:int;
 		
 		public var startIndexIncr:int = 0;
 		
@@ -51,6 +52,7 @@ package com.kashirov.models
 		{
 			_models = { };
 			modelFields = [];
+			_length = 0;
 			
 			prefix = '';
 			
@@ -110,6 +112,7 @@ package com.kashirov.models
 			modelFields.push(key);
 			addSignal.dispatch(item);
 			item.changeSignal.add(onItemSignal);
+			_length += 1;
 			return item;
 		}
 		
@@ -126,6 +129,7 @@ package com.kashirov.models
 			modelFields.splice(modelFields.indexOf(key), 1);
 			removeSignal.dispatch(item);
 			item.dispose();
+			_length -= 1;
 			return item;
 		}
 		
@@ -159,6 +163,7 @@ package com.kashirov.models
 		
 		public function count():int
 		{
+			trace('Store.count() deprecated. Use Store.length');
 			return modelFields.length
 		}
 		
@@ -206,6 +211,11 @@ package com.kashirov.models
 		public function get changeSignal():Signal 
 		{
 			return _changeSignal;
+		}
+		
+		public function get length():int 
+		{
+			return _length;
 		}
 		
 	}
