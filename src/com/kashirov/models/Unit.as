@@ -1,12 +1,8 @@
 package com.kashirov.models 
 {
-	import flash.utils.describeType;
 	import flash.utils.flash_proxy;
 	import flash.utils.getDefinitionByName;
-	import flash.utils.getTimer;
 	import flash.utils.Proxy;
-	import org.as3commons.collections.framework.core.SetIterator;
-	import org.as3commons.collections.Map;
 	import org.osflash.signals.Signal;
 	/**
 	 * ...
@@ -20,13 +16,11 @@ package com.kashirov.models
 		
 		protected var modelFields:Array;
 		protected var modelFieldsObj:Object;
-		protected var exclude:Array = ['prefix', 'signal'];
-		protected var className:String;
 		protected var _prefix:String;
 		
 		public function toString():String
 		{
-			return '[object ' + className.split('::')[1] + ']';
+			return '[object ' + Cache.getClassName(this).split('::')[1] + ']';
 		}
 		
 		override flash_proxy function nextNameIndex(index:int):int 
@@ -140,20 +134,15 @@ package com.kashirov.models
 		
 		private function parseModelFields():void 
 		{
-			modelFields = [];
-			modelFieldsObj = { };
-			var structure:XML = describeType(this);
+			modelFields = Cache.getUnitFields(this);
+			modelFieldsObj = Cache.getUnitFieldsHash(this);
 			
-			className = structure.@name;
-			for each (var childNode:XML in structure.variable) {
-				var name:String = childNode.@name;
-				if (exclude.indexOf(name) != -1) continue;
-				if (childNode..metadata.(@name == 'Inject').length()) continue
-				var type:String = childNode.@type;
-				var clazz:Class = getDefinitionByName(type) as Class;
-				if (!this[name]) this[name] = new clazz();
-				modelFields.push(name);
-				modelFieldsObj[name] = 1;
+			for (var name:String in modelFieldsObj) 
+			{
+				if (!this[name]) {
+					var clazz:Class = modelFieldsObj[name];
+					this[name] = new clazz();
+				}
 				
 				if (this[name] is Unit) {
 					var unit:Unit = this[name] as Unit;
@@ -163,7 +152,6 @@ package com.kashirov.models
 					store.prefix = name;
 				}
 			}
-			modelFields = modelFields.sort();
 		}
 		
 		private function parseField(name:String, data:Object):void

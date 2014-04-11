@@ -1,8 +1,6 @@
 package com.kashirov.models 
 {
-	import flash.utils.describeType;
 	import flash.utils.flash_proxy;
-	import flash.utils.getDefinitionByName;
 	import flash.utils.Proxy;
 	import org.osflash.signals.Signal;
 	/**
@@ -60,10 +58,9 @@ package com.kashirov.models
 			_removeSignal = new Signal(IModel);
 			_changeSignal = new Signal(IModel, Object);
 			
-			var structure:XML = describeType(this);
-			className = structure.@name;
-			var assignType:String = structure.variable.(@name == 'assign').@type;
-			_assign = getDefinitionByName(assignType) as Class;
+			var structure:XML = Cache.getDescribeType(this);
+			className = Cache.getClassName(this);
+			_assign = Cache.getAssignClass(this);
 		}
 		
 		public function data():Object

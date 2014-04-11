@@ -1,0 +1,69 @@
+
+====================================
+[start]
+
+[testStoreIncr] 0.155 s params: 100,0,
+[testStoreIncr] 0.119 s params: 100,1,
+[testStoreIncr] 0.153 s params: 100,2,
+[testStoreIncr] 0.212 s params: 100,3,
+[testStoreIncr] 0.203 s params: 100,3,[object Object]
+[testStoreIncr] 0.577 s params: 500,0,
+[testStoreIncr] 0.807 s params: 500,1,
+[testStoreIncr] 0.984 s params: 500,2,
+[testStoreIncr] 1.216 s params: 500,3,
+[testStoreIncr] 1.243 s params: 500,3,[object Object]
+[testStoreIncr] 1.738 s params: 1000,0,
+[testStoreIncr] 2.098 s params: 1000,1,
+[testStoreIncr] 2.57 s params: 1000,2,
+[testStoreIncr] 2.997 s params: 1000,3,
+[testStoreIncr] 3.128 s params: 1000,3,[object Object]
+[testStore] 0.068 s params: 100,0,
+[testStore] 0.137 s params: 100,1,
+[testStore] 0.166 s params: 100,2,
+[testStore] 0.218 s params: 100,3,
+[testStore] 0.204 s params: 100,3,[object Object]
+[testStore] 0.537 s params: 500,0,
+[testStore] 0.8 s params: 500,1,
+[testStore] 0.986 s params: 500,2,
+[testStore] 1.205 s params: 500,3,
+[testStore] 1.247 s params: 500,3,[object Object]
+[testStore] 1.651 s params: 1000,0,
+[testStore] 2.171 s params: 1000,1,
+[testStore] 2.645 s params: 1000,2,
+[testStore] 2.975 s params: 1000,3,
+[testStore] 3.034 s params: 1000,3,[object Object]
+
+====================================
+[cache descrybeType]
+
+[testStoreIncr] 0.086 s params: 100,0,
+[testStoreIncr] 0.016 s params: 100,1,
+[testStoreIncr] 0.032 s params: 100,2,
+[testStoreIncr] 0.022 s params: 100,3,
+[testStoreIncr] 0.026 s params: 100,3,[object Object]
+[testStoreIncr] 0.257 s params: 500,0,
+[testStoreIncr] 0.281 s params: 500,1,
+[testStoreIncr] 0.294 s params: 500,2,
+[testStoreIncr] 0.324 s params: 500,3,
+[testStoreIncr] 0.39 s params: 500,3,[object Object]
+[testStoreIncr] 1.024 s params: 1000,0,
+[testStoreIncr] 1.058 s params: 1000,1,
+[testStoreIncr] 1.058 s params: 1000,2,
+[testStoreIncr] 1.073 s params: 1000,3,
+[testStoreIncr] 1.186 s params: 1000,3,[object Object]
+[testStore] 0.015 s params: 100,0,
+[testStore] 0.039 s params: 100,1,
+[testStore] 0.026 s params: 100,2,
+[testStore] 0.021 s params: 100,3,
+[testStore] 0.022 s params: 100,3,[object Object]
+[testStore] 0.233 s params: 500,0,
+[testStore] 0.294 s params: 500,1,
+[testStore] 0.274 s params: 500,2,
+[testStore] 0.309 s params: 500,3,
+[testStore] 0.359 s params: 500,3,[object Object]
+[testStore] 0.98 s params: 1000,0,
+[testStore] 1.029 s params: 1000,1,
+[testStore] 1.048 s params: 1000,2,
+[testStore] 1.193 s params: 1000,3,
+[testStore] 1.152 s params: 1000,3,[object Object]
+
