@@ -29,20 +29,30 @@ package com.kashirov.models
 			removeSignal.removeAll();
 		}
 		
+		public function del(key:*):void {
+			this.removeKey(String(key));
+		}
+		
 		public function set(key:*, value:*):*
 		{
-			if (this.hasKey(key)) this.removeKey(key);
-			this.add(key, value);
-			return this.itemFor(key);
+			if (this.hasKey(String(key))) del(key);
+			this.add(String(key), value);
+			return this.itemFor(String(key));
 		}
 		
 		public function get(key:*):*
 		{
-			if (this.hasKey(key)) {
-				return this.itemFor(key);
+			if (this.hasKey(String(key))) {
+				return this.itemFor(String(key));
 			} else {
 				return _defaultValue;
 			}
+		}
+		
+		public function incr(key:*, value:int):* {
+			var newValue:* = get(key) + value;
+			set(key, newValue);
+			return newValue;
 		}
 		
 		public function updateData(data:Object):void
@@ -65,6 +75,16 @@ package com.kashirov.models
 				rt[iterator.key] = iterator.current;
 			}
 			
+			return rt;
+		}
+		
+		public function sum():int {
+			var rt:int = 0;
+			var iterator:IMapIterator = iterator() as IMapIterator;
+			while (iterator.hasNext()) {
+				iterator.next();
+				rt += iterator.current;
+			}
 			return rt;
 		}
 		

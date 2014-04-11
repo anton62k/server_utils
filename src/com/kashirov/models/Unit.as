@@ -3,6 +3,7 @@ package com.kashirov.models
 	import flash.utils.describeType;
 	import flash.utils.flash_proxy;
 	import flash.utils.getDefinitionByName;
+	import flash.utils.getTimer;
 	import flash.utils.Proxy;
 	import org.as3commons.collections.framework.core.SetIterator;
 	import org.as3commons.collections.Map;
@@ -18,6 +19,7 @@ package com.kashirov.models
 		private var _changeSignal:Signal;
 		
 		protected var modelFields:Array;
+		protected var modelFieldsObj:Object;
 		protected var exclude:Array = ['prefix', 'signal'];
 		protected var className:String;
 		protected var _prefix:String;
@@ -103,25 +105,29 @@ package com.kashirov.models
 			
 			for (var name:String in data) 
 			{
-				var field:* = this[name];
-				var itemData:Object = data[name];
+				if (name in modelFieldsObj) {
 				
-				if (field is Unit) {
-					parseBaseModel(field as Unit, itemData);
-				} else if (field is Store) {
-					(field as Store).updateData(itemData);
+					var field:* = this[name];
+					var itemData:Object = data[name];
 					
-				} else if (field is Hash) {
-					parseHash(field as Hash, itemData);
-					
-				} else if (field is List) {
-					parseList(field as List, itemData as Array);
-					
-				} else {
-					if (itemData != this[name]) {
-						parseField(name, itemData)
-						fields.push(name);
+					if (field is Unit) {
+						parseBaseModel(field as Unit, itemData);
+					} else if (field is Store) {
+						(field as Store).updateData(itemData);
+						
+					} else if (field is Hash) {
+						parseHash(field as Hash, itemData);
+						
+					} else if (field is List) {
+						parseList(field as List, itemData as Array);
+						
+					} else {
+						if (itemData != this[name]) {
+							parseField(name, itemData)
+							fields.push(name);
+						}
 					}
+				
 				}
 				
 			}
@@ -135,7 +141,9 @@ package com.kashirov.models
 		private function parseModelFields():void 
 		{
 			modelFields = [];
+			modelFieldsObj = { };
 			var structure:XML = describeType(this);
+			
 			className = structure.@name;
 			for each (var childNode:XML in structure.variable) {
 				var name:String = childNode.@name;
@@ -145,6 +153,7 @@ package com.kashirov.models
 				var clazz:Class = getDefinitionByName(type) as Class;
 				if (!this[name]) this[name] = new clazz();
 				modelFields.push(name);
+				modelFieldsObj[name] = 1;
 				
 				if (this[name] is Unit) {
 					var unit:Unit = this[name] as Unit;
