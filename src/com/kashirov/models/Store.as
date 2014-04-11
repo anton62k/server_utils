@@ -110,9 +110,9 @@ package com.kashirov.models
 			item.prefix = key;
 			if (data) item.updateData(data);
 			modelFields.push(key);
+			_length += 1;
 			addSignal.dispatch(item);
 			item.changeSignal.add(onItemSignal);
-			_length += 1;
 			return item;
 		}
 		
@@ -127,9 +127,9 @@ package com.kashirov.models
 			var item:IModel = _models[key] as IModel;
 			delete _models[key];		
 			modelFields.splice(modelFields.indexOf(key), 1);
+			_length -= 1;
 			removeSignal.dispatch(item);
 			item.dispose();
-			_length -= 1;
 			return item;
 		}
 		
