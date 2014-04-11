@@ -107,7 +107,7 @@ package com.kashirov.models
 			_models[key] = item;
 			item.prefix = key;
 			if (data) item.updateData(data);
-			updateModelFields();
+			modelFields.push(key);
 			addSignal.dispatch(item);
 			item.changeSignal.add(onItemSignal);
 			return item;
@@ -122,8 +122,8 @@ package com.kashirov.models
 		{
 			key = String(key);
 			var item:IModel = _models[key] as IModel;
-			delete _models[key];
-			updateModelFields();
+			delete _models[key];		
+			modelFields.splice(modelFields.indexOf(key), 1);
 			removeSignal.dispatch(item);
 			item.dispose();
 			return item;
@@ -160,16 +160,6 @@ package com.kashirov.models
 		public function count():int
 		{
 			return modelFields.length
-		}
-		
-		private function updateModelFields():void
-		{
-			modelFields = [];
-			for (var name:String in _models) 
-			{
-				modelFields.push(name);
-			}
-			modelFields = modelFields.sort();
 		}
 		
 		private function incrKey():int

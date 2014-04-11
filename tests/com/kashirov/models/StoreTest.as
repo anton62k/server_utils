@@ -100,7 +100,7 @@ package com.kashirov.models
 			{
 				model.add(id);
 			}
-			ids = ids.sort();
+			//ids = ids.sort();
 			
 			var i:int = 0;
 			for (var name:String in model) 
@@ -120,7 +120,7 @@ package com.kashirov.models
 			{
 				model.add(id);
 			}
-			ids = ids.sort();
+			//ids = ids.sort();
 			
 			var i:int = 0;
 			for each (var item:Unit in model) 
