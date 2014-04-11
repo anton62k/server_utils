@@ -31,10 +31,10 @@ package com.kashirov.models
 			var item:MyStore = model.add();
 			eq(item.prefix, '0');
 			eq(model.get(item.prefix), item);
-			eq(model.count(), 1);
+			eq(model.length, 1);
 			
 			model.remove(item.prefix);
-			eq(model.count(), 0);
+			eq(model.length, 0);
 		}
 		
 		[Test]

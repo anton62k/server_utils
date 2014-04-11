@@ -47,19 +47,19 @@ package com.kashirov.models
 		[Test]
 		public function testCount():void
 		{	
-			eq(model.count(), 0);
+			eq(model.length, 0);
 			
 			model.addItem(0);
-			eq(model.count(), 1);
+			eq(model.length, 1);
 			
 			model.updateData( { '2': { }, '3': { }} );
-			eq(model.count(), 3);
+			eq(model.length, 3);
 			
 			model.removeItem(3);
-			eq(model.count(), 2);
+			eq(model.length, 2);
 			
 			model.removeAll();
-			eq(model.count(), 0);
+			eq(model.length, 0);
 		}		
 		
 		[Test]
@@ -108,7 +108,7 @@ package com.kashirov.models
 				eq(ids[i], name);
 				i ++;
 			}
-			eq(i, model.count());
+			eq(i, model.length);
 			eq(i, ids.length);
 		}
 		
@@ -128,7 +128,7 @@ package com.kashirov.models
 				eq(String(ids[i]), item.prefix);
 				i ++;
 			}
-			eq(i, model.count());
+			eq(i, model.length);
 			eq(i, ids.length);
 		}
 		
