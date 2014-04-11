@@ -135,7 +135,7 @@ package com.kashirov.models
 		[Test]
 		public function testAddIncr():void
 		{	
-			model.startIndexIncr = 0;
+			model.nextId = 0;
 			for (var i:int = 0; i < 20; i++) 
 			{
 				var item:Unit = model.add();
@@ -144,7 +144,7 @@ package com.kashirov.models
 			
 			model.removeAll();
 			
-			model.startIndexIncr = 11;
+			model.nextId = 11;
 			for (i = 0; i < 20; i++) 
 			{
 				item = model.add();

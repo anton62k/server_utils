@@ -31,22 +31,22 @@ package
 			timeDecor('testStoreIncr', testStoreIncr, 1000, 2, null);
 			timeDecor('testStoreIncr', testStoreIncr, 1000, 3, null);
 			timeDecor('testStoreIncr', testStoreIncr, 1000, 3, { test: 30 } );
-			
-			timeDecor('testStore', testStoreIncr, 100, 0, null);
-			timeDecor('testStore', testStoreIncr, 100, 1, null);
-			timeDecor('testStore', testStoreIncr, 100, 2, null);
-			timeDecor('testStore', testStoreIncr, 100, 3, null);
-			timeDecor('testStore', testStoreIncr, 100, 3, { test: 30 });
-			timeDecor('testStore', testStoreIncr, 500, 0, null);
-			timeDecor('testStore', testStoreIncr, 500, 1, null);
-			timeDecor('testStore', testStoreIncr, 500, 2, null);
-			timeDecor('testStore', testStoreIncr, 500, 3, null);
-			timeDecor('testStore', testStoreIncr, 500, 3, { test: 30 });
-			timeDecor('testStore', testStoreIncr, 1000, 0, null);
-			timeDecor('testStore', testStoreIncr, 1000, 1, null);
-			timeDecor('testStore', testStoreIncr, 1000, 2, null);
-			timeDecor('testStore', testStoreIncr, 1000, 3, null);
-			timeDecor('testStore', testStoreIncr, 1000, 3, { test: 30 });			
+			//
+			timeDecor('testStore', testStore, 100, 0, null);
+			timeDecor('testStore', testStore, 100, 1, null);
+			timeDecor('testStore', testStore, 100, 2, null);
+			timeDecor('testStore', testStore, 100, 3, null);
+			timeDecor('testStore', testStore, 100, 3, { test: 30 });
+			timeDecor('testStore', testStore, 500, 0, null);
+			timeDecor('testStore', testStore, 500, 1, null);
+			timeDecor('testStore', testStore, 500, 2, null);
+			timeDecor('testStore', testStore, 500, 3, null);
+			timeDecor('testStore', testStore, 500, 3, { test: 30 });
+			timeDecor('testStore', testStore, 1000, 0, null);
+			timeDecor('testStore', testStore, 1000, 1, null);
+			timeDecor('testStore', testStore, 1000, 2, null);
+			timeDecor('testStore', testStore, 1000, 3, null);
+			timeDecor('testStore', testStore, 1000, 3, { test: 30 });		
 		}
 		
 		private function timeDecor(name:String, func:Function, ...params):void

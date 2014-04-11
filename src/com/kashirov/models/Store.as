@@ -21,7 +21,7 @@ package com.kashirov.models
 		private var _changeSignal:Signal;
 		private var _length:int;
 		
-		public var startIndexIncr:int = 0;
+		public var nextId:int = 0;
 		
 		public function toString():String
 		{
@@ -167,25 +167,18 @@ package com.kashirov.models
 			return modelFields.length
 		}
 		
+		private function getIncrKey(id:int):int {
+			if (getItem(id)) {
+				return getIncrKey(id + 1);
+			}
+			return id;
+		}
+		
 		private function incrKey():int
 		{
-			var incr:int = startIndexIncr;
-			var nums:Array = [];
-			for each (var item:String in modelFields) 
-			{
-				if (item == '0') {
-					nums.push(0);
-				} else if (int(item) != 0) {
-					nums.push(int(item));
-				}
-			}
-			
-			nums = nums.sort(Array.NUMERIC);
-			if (nums.length) {
-				incr = nums[nums.length - 1] + 1;
-			}
-			
-			return incr;
+			var id:int = getIncrKey(this.nextId);
+			nextId = id + 1;
+			return id;
 		}
 		
 		public function get prefix():String 
