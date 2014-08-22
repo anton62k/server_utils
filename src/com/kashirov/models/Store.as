@@ -78,6 +78,7 @@ package com.kashirov.models
 			return rt;
 		}
 		
+		[PreDestroy]
 		public function dispose():void
 		{
 			addSignal.removeAll();
@@ -109,6 +110,7 @@ package com.kashirov.models
 			_models[key] = item;
 			item.prefix = key;
 			if (data) item.updateData(data);
+			item.init();
 			modelFields.push(key);
 			_length += 1;
 			addSignal.dispatch(item);
@@ -159,6 +161,11 @@ package com.kashirov.models
 					addItem(name, value);
 				}
 			}
+		}
+		
+		public function init():void
+		{
+			// override
 		}
 		
 		public function count():int

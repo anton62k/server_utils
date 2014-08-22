@@ -17,6 +17,7 @@ package com.kashirov.models
 		function data():Object;
 		function updateData(value:Object):void;
 		function dispose():void;
+		function init():void;
 		
 	}
 	

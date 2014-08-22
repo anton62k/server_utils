@@ -13,6 +13,7 @@ package com.kashirov.models
 		
 		private var _signal:Signal;
 		private var _changeSignal:Signal;
+		private var _diffSignal:Signal;
 		
 		protected var modelFields:Array;
 		protected var modelFieldsObj:Object;
@@ -47,6 +48,7 @@ package com.kashirov.models
 		{	
 			_signal = new Signal(Array);
 			_changeSignal = new Signal(IModel, Array);
+			_diffSignal = new Signal(IModel, Object);
 			parseModelFields();
 			prefix = '';
 		}
@@ -60,10 +62,12 @@ package com.kashirov.models
 			}
 		}
 		
+		[PreDestroy]
 		public function dispose():void
 		{
 			_signal.removeAll();
 			_changeSignal.removeAll();
+			_diffSignal.removeAll();
 			
 			for (var name:String in this) 
 			{
@@ -96,6 +100,7 @@ package com.kashirov.models
 		public function updateData(data:Object):void
 		{
 			var fields:Array = [];
+			var diff:Object = { };
 			
 			for (var name:String in data) 
 			{
@@ -117,8 +122,10 @@ package com.kashirov.models
 						
 					} else {
 						if (itemData != this[name]) {
+							var oldValue:* = this[name];
 							parseField(name, itemData)
 							fields.push(name);
+							diff[name] = { oldValue: oldValue, value: this[name] };
 						}
 					}
 				
@@ -129,7 +136,13 @@ package com.kashirov.models
 			if (fields.length) {
 				_signal.dispatch(fields);
 				_changeSignal.dispatch(this, fields);
+				_diffSignal.dispatch(this, diff);
 			}
+		}
+		
+		public function init():void
+		{
+			// override
 		}
 		
 		private function parseModelFields():void 
@@ -192,6 +205,11 @@ package com.kashirov.models
 		public function get changeSignal():Signal 
 		{
 			return _changeSignal;
+		}
+		
+		public function get diffSignal():Signal 
+		{
+			return _diffSignal;
 		}
 		
 	}
