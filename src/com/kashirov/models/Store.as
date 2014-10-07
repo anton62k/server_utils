@@ -218,6 +218,33 @@ package com.kashirov.models
 			return _length;
 		}
 		
+		public function find(options:Object):Vector.<Unit>
+		{
+			var rt:Vector.<Unit> = new Vector.<Unit>();
+			for each (var item:Unit in this)
+			{
+				var success:Boolean = true;
+				for (var name:String in options)
+				{
+					if (item[name] != options[name]) {
+						success = false;
+					}
+				}
+				if (success) rt.push(item);
+			}
+			return rt;
+		}
+
+		public function getFirst(options:Object):Unit
+		{
+			var rt:Vector.<Unit> = find(options);
+			if (rt.length) {
+				return rt[0];
+			} else {
+				return null;
+			}
+		}
+		
 	}
 
 }
