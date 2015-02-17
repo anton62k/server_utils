@@ -97,7 +97,7 @@ package com.kashirov.models
 			return _models[key];
 		}
 		
-		public function addItem(key:* = null, data:Object = null):IModel
+		public function addItem(key:* = null, data:Object = null, dispatch:Boolean = true):IModel
 		{
 			if (key == null) {
 				key = incrKey();
@@ -113,7 +113,7 @@ package com.kashirov.models
 			item.init();
 			modelFields.push(key);
 			_length += 1;
-			addSignal.dispatch(item);
+			if (dispatch) addSignal.dispatch(item);
 			item.changeSignal.add(onItemSignal);
 			return item;
 		}
@@ -217,7 +217,7 @@ package com.kashirov.models
 		{
 			return _length;
 		}
-		
+
 		public function find(options:Object):Vector.<Unit>
 		{
 			var rt:Vector.<Unit> = new Vector.<Unit>();

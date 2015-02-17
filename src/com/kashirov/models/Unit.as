@@ -196,6 +196,11 @@ package com.kashirov.models
 		{
 			_prefix = value;
 		}
+
+		public function get prefixInt():int
+		{
+			return int(_prefix);
+		}
 		
 		public function get signal():Signal 
 		{

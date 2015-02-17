@@ -46,7 +46,9 @@ package com.kashirov.models
 			
 			if (obj is Store) {
 				var assignType:String = structure.variable.(@name == 'assign').@type;
-				assignHash[className] = getDefinitionByName(assignType) as Class;
+				if (assignType) {
+					assignHash[className] = getDefinitionByName(assignType) as Class;
+				}
 			}
 			
 			cached[className] = true;
